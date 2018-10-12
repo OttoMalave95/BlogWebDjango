@@ -5,7 +5,10 @@
 		<div class="date">
 			{% if post.published_date %}
 				{{ post.published_date }}
-				<a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><i class="fas fa-edit"></i></a>
+				<a class="btn btn-sm btn-secondary" href="{% url 'post_edit' pk=post.pk %}" title="Editar"><i class="fas fa-edit"></i></a>
+				<a class="btn btn-sm btn-secondary" href="{% url 'post_remove' pk=post.pk %}" title="Eliminar"><i class="fas fa-times-circle"></i></span></a>
+			{% else %}
+    		<a class="btn btn-secondary" href="{% url 'post_publish' pk=post.pk %}">Publicar</a>
 			{% endif %}
 		</div>
 		<h1>{{ post.title }}</h1>
