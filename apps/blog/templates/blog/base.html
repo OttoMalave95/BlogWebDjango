@@ -13,9 +13,12 @@
 </head>
 <body>
 	<div class="page-header">
-		<a href="{% url 'post_new' %}" class="top-menu" title="Crear Nuevo Post"><i class="fas fa-plus-circle"></i></a>
 		{% if user.is_authenticated %}
+			<a href="{% url 'post_new' %}" class="top-menu" title="Crear Nuevo Post"><i class="fas fa-plus-circle"></i></a>
 			<a href="{% url 'post_draft_list' %}" class="top-menu" title="Lista de Borradores"><i class="fas fa-list"></i></a>
+			<p class="top-menu">Hola {{ user.username }} <a href="{% url 'logout' %}" title="Cerrar Sesion"><i class="fas fa-sign-out-alt"></i></a></p>
+		{% else %}
+			<a href="{% url 'login' %}" class="top-menu" title="Iniciar Sesion"><i class="fas fa-sign-in-alt"></i></a>
 		{% endif %}
 		<h1><a href="/" title="Blog Web">Blog Web</a></h1>
 	</div>
