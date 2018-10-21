@@ -3,15 +3,34 @@
 {% block content %}
 	<div class="post">
 		<div class="date">
-			{% if post.published_date %}
-				{{ post.published_date }}
-				<a class="btn btn-sm btn-secondary" href="{% url 'post_edit' pk=post.pk %}" title="Editar"><i class="fas fa-edit"></i></a>
-				<a class="btn btn-sm btn-secondary" href="{% url 'post_remove' pk=post.pk %}" title="Eliminar"><i class="fas fa-times-circle"></i></span></a>
-			{% else %}
-    		<a class="btn btn-secondary" href="{% url 'post_publish' pk=post.pk %}">Publicar</a>
-			{% endif %}
+				{% if post.published_date %}
+					{{ post.published_date }}
+					<a class="btn btn-sm btn-secondary" href="{% url 'post_edit' pk=post.pk %}" title="Editar"><i class="fas fa-edit"></i></a>
+					<a class="btn btn-sm btn-secondary" href="{% url 'post_remove' pk=post.pk %}" title="Eliminar"><i class="fas fa-times-circle"></i></span></a>
+				{% else %}
+	    		<a class="btn btn-secondary" href="{% url 'post_publish' pk=post.pk %}">Publicar</a>
+				{% endif %}
 		</div>
 		<h1>{{ post.title }}</h1>
 		<p>{{ post.text|linebreaksbr }}</p>
 	</div>
+	<hr>
+	<a class="btn btn-secondary" href="{% url 'add_comment_to_post' pk=post.pk %}">Agregar Comentario</a>
+	{% for comment in post.comments.all %}
+    {% if user.is_authenticated or comment.approved_comment %}
+	    <div class="comment">
+	      <div class="date">
+	        {{ comment.created_date }}
+	        {% if not comment.approved_comment %}
+	          <a class="btn btn-secondary" href="{% url 'comment_remove' pk=comment.pk %}"><i class="fas fa-times-circle"></i></a>
+	          <a class="btn btn-secondary" href="{% url 'comment_approve' pk=comment.pk %}"><i class="fas fa-check"></i></a>
+	        {% endif %}
+	      </div>
+	      <strong>{{ comment.author }}</strong>
+	      <p>{{ comment.text|linebreaks }}</p>
+	    </div>
+    {% endif %}
+	{% empty %}
+	  <p>No existen comentarios</p>
+	{% endfor %}
 {% endblock %}
